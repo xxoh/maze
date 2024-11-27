@@ -46,12 +46,10 @@ def reconstruct_path(came_from, current):
     return path[::-1]
 
 # Streamlit UI
-st.title("A* 알고리즘을 이용한 미로 최단 경로 찾기")
+st.title("A* 알고리즘을 이용한 10x10 미로 최단 경로 찾기")
 
-# 미로 설정
-rows = st.slider("미로의 행 수", min_value=5, max_value=20, value=10)
-cols = st.slider("미로의 열 수", min_value=5, max_value=20, value=10)
-
+# 미로 생성 (10x10 고정)
+rows, cols = 10, 10
 maze = np.random.choice([0, 1], size=(rows, cols), p=[0.7, 0.3])
 maze[0][0] = 0  # 시작점
 maze[rows-1][cols-1] = 0  # 목표점
@@ -76,8 +74,13 @@ if path:
     # 최단 경로 시각화
     st.write("### 최단 경로 찾기 결과")
     for (x, y) in path:
-        maze[x][y] = 0.5  # 경로 표시
-    ax.imshow(maze, cmap="viridis")  # 경로를 색상으로 표시
+        maze[x][y] = 0.5  # 경로를 빨간색으로 표시하기 위한 값 설정
+
+    # 경로를 빨간색으로 시각화
+    ax.imshow(maze, cmap="coolwarm")  # coolwarm으로 색상 표시 (빨간색 강조)
+    for (x, y) in path:
+        ax.add_patch(plt.Rectangle((y - 0.5, x - 0.5), 1, 1, color='red', alpha=0.5))
+    
     st.pyplot(fig)
 
     # 경로 설명
