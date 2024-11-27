@@ -46,7 +46,7 @@ def reconstruct_path(came_from, current):
     return path[::-1]
 
 # Streamlit UI
-st.title("A* 알고리즘을 이용한 미로 구현")
+st.title("A* 알고리즘을 이용한 미로 최단 경로 찾기")
 
 # 미로 설정
 rows = st.slider("미로의 행 수", min_value=5, max_value=20, value=10)
@@ -73,19 +73,28 @@ goal = (rows-1, cols-1)
 path = astar(maze, start, goal)
 
 if path:
+    # 최단 경로 시각화
     st.write("### 최단 경로 찾기 결과")
     for (x, y) in path:
         maze[x][y] = 0.5  # 경로 표시
     ax.imshow(maze, cmap="viridis")  # 경로를 색상으로 표시
     st.pyplot(fig)
-    st.write("최단 경로:", path)
+
+    # 경로 설명
+    st.write("### 최단 경로 설명")
+    st.write(f"출발점: {start}")
+    st.write(f"목표점: {goal}")
+    st.write(f"최단 경로 길이: {len(path) - 1} 칸 이동")
+    st.write("최단 경로:")
+    for idx, (x, y) in enumerate(path):
+        st.write(f"{idx + 1}. ({x}, {y}) 위치")
 else:
     st.write("경로를 찾을 수 없습니다.")
 
-# Github 배포 안내
+# 한국어로 최단 경로 설명
 st.write("""
-### Github와 Streamlit 배포
-1. 위 코드를 `.py` 파일로 저장.
-2. [Streamlit Community Cloud](https://streamlit.io/)에 접속하여 Github와 연동.
-3. 코드를 업로드하고 웹으로 배포.
+### 최단 경로란?
+- 이 프로그램은 미로에서 **A* 알고리즘**을 사용해 최단 경로를 계산합니다.
+- 최단 경로는 **가장 적은 이동 횟수**로 출발점에서 목표점까지 도달할 수 있는 경로입니다.
+- 알고리즘은 현재 위치에서 이동 가능한 경로를 탐색하며, 목표에 더 가까운 경로를 우선적으로 탐색합니다.
 """)
