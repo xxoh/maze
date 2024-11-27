@@ -56,8 +56,12 @@ maze[rows-1][cols-1] = 0  # 목표점
 
 # 미로 출력
 st.write("### 생성된 미로")
-fig, ax = plt.subplots()
-ax.imshow(maze, cmap="binary")
+fig, ax = plt.subplots(figsize=(6, 6))
+
+# 미로 그리기 (벽은 1, 길은 0으로 표시)
+ax.imshow(maze, cmap="binary", origin="upper")
+
+# 그리드 설정
 ax.set_xticks(np.arange(-0.5, cols, 1))
 ax.set_yticks(np.arange(-0.5, rows, 1))
 ax.set_xticklabels([])
@@ -74,12 +78,12 @@ if path:
     # 최단 경로 시각화
     st.write("### 최단 경로 찾기 결과")
     for (x, y) in path:
-        maze[x][y] = 0.5  # 경로를 빨간색으로 표시하기 위한 값 설정
+        maze[x][y] = 0.5  # 경로를 표시할 값 (0.5)
 
-    # 경로를 노란색으로 시각화
-    ax.imshow(maze, cmap="yellow") 
+    # 경로를 빨간색으로 시각화
+    ax.imshow(maze, cmap="coolwarm", origin="upper")  # coolwarm으로 경로 표시
     for (x, y) in path:
-        ax.add_patch(plt.Rectangle((y - 0.5, x - 0.5), 1, 1, color='red', alpha=0.5))
+        ax.add_patch(plt.Rectangle((y - 0.5, x - 0.5), 1, 1, color='red', alpha=0.6))
     
     st.pyplot(fig)
 
