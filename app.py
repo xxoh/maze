@@ -81,7 +81,7 @@ if path:
         maze[x][y] = 0.5  # 경로를 표시할 값 (0.5)
 
     # 경로를 빨간색으로 시각화
-    ax.imshow(maze, cmap="coolwarm", origin="upper")  # coolwarm으로 경로 표시
+    ax.imshow(maze, cmap="hot", origin="upper")  # 'hot'으로 경로 표시
     for (x, y) in path:
         ax.add_patch(plt.Rectangle((y - 0.5, x - 0.5), 1, 1, color='red', alpha=0.6))
     
